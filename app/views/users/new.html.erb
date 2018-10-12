@@ -21,8 +21,16 @@
           <h4 class="mt-2"><%= t("signup.subtitle") %></h4>
         </div>
         <div class="card-body background">
-          <% unless configured_providers.length.zero? %>
-            <% configured_providers.each do |provider| %>
+          <% unless iconset_providers.length.zero? %>
+            <% if configured_providers.include? :google %>
+              <% provider = :google %>
+              <%= link_to omniauth_login_url(provider), class: "btn btn-pill btn-#{provider} btn-block" do %>
+                <i class="fab fa-<%= provider %>"></i>&ensp;<%= t("signup.with", provider: provider.capitalize) %>
+              <% end %>
+            <% end %>
+
+            <% if configured_providers.include? :twitter %>
+              <% provider = :twitter %>
               <%= link_to omniauth_login_url(provider), class: "btn btn-pill btn-#{provider} btn-block" do %>
                 <i class="fab fa-<%= provider %>"></i>&ensp;<%= t("signup.with", provider: provider.capitalize) %>
               <% end %>

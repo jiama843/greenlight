@@ -23,9 +23,10 @@
           </div>
 
           <% unless iconset_providers.length.zero? %>
-            <% iconset_providers.each do |provider| %>
+            <% if iconset_providers.include? :google %>
+              <% provider = :google %>
               <%= link_to omniauth_login_url(provider), class: "btn btn-pill btn-#{provider} btn-block" do %>
-                <i class="fab fa-<%= provider %>"></i>&ensp;<%= t("modal.login.with", provider: provider.capitalize) %>
+                <i class="fab fa-<%= provider %>"></i>&ensp;<%= t("signup.with", provider: provider.capitalize) %>
               <% end %>
             <% end %>
 
