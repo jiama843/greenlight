@@ -93,12 +93,21 @@ class RoomsController < ApplicationController
     # Join the user in and start the meeting.
     opts = default_meeting_options
     opts[:user_is_moderator] = true
+    opts[:callbackUrl] = URI.encode_www_form_component(request.base_url + "/" + @room.uid + "/process_recording")
+
+    puts URI.encode_www_form_component(request.base_url + "/" + @room.uid)
 
     redirect_to @room.join_path(current_user.name, opts, current_user.uid)
 
     # Notify users that the room has started.
     # Delay 5 seconds to allow for server start, although the request will retry until it succeeds.
     NotifyUserWaitingJob.set(wait: 5.seconds).perform_later(@room)
+  end
+
+  # GET /:room_uid/process_recording
+  def process_recording
+    puts "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+    
   end
 
   # GET /:room_uid/logout
