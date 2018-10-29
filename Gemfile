@@ -52,7 +52,7 @@ gem 'omniauth-ldap'
 gem 'omniauth-bn-launcher', '~> 0.1.0'
 
 # BigBlueButton API wrapper.
-gem 'bigbluebutton-api-ruby'
+gem 'bigbluebutton-api-ruby', path: '../../bbb_api_gem/bigbluebutton-api-ruby'
 
 # Front-end.
 gem 'bootstrap', '~> 4.1.3'

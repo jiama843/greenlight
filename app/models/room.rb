@@ -27,6 +27,7 @@ class Room < ApplicationRecord
 
   RETURNCODE_SUCCESS = "SUCCESS"
   META_LISTED = "gl-listed"
+  META_CALLBACK = "endCallbackUrl"
 
   # Determines if a user owns a room.
   def owned_by?(user)
@@ -47,25 +48,28 @@ class Room < ApplicationRecord
   # Creates a meeting on the BigBlueButton server.
   def start_session(options = {})
     create_options = {
+      meetingID: bbb_id,
       record: options[:meeting_recorded].to_s,
       logoutURL: options[:meeting_logout_url] || '',
       moderatorPW: random_password(12),
       attendeePW: random_password(12),
       moderatorOnlyMessage: options[:moderator_message],
       "meta_#{META_LISTED}": false,
-      "meta_endCallbackUrl": options[:callbackUrl],
+      meta_endCallbackUrl: options[:callbackUrl],
     }
 
     puts create_options
     puts create_options[:"meta_gl-listed"]
     puts create_options[:meta_endCallbackUrl] + "***********************************************************************"
+    puts bbb.get_api_version
 
     # Update session info.
     update_attributes(sessions: sessions + 1, last_session: DateTime.now)
 
     # Send the create request.
     begin
-      bbb.create_meeting(name, bbb_id, create_options)
+      bbb.send_api_request(:create, create_options)
+      #bbb.create_meeting(name, bbb_id, create_options)
     rescue BigBlueButton::BigBlueButtonException => exc
       puts "BigBlueButton failed on create: #{exc.key}: #{exc.message}"
     end
@@ -166,9 +170,9 @@ class Room < ApplicationRecord
   def bbb
     @bbb ||= if Rails.configuration.loadbalanced_configuration
       lb_user = retrieve_loadbalanced_credentials(owner.provider)
-      BigBlueButton::BigBlueButtonApi.new(remove_slash(lb_user["apiURL"]), lb_user["secret"], "0.8")
+      BigBlueButton::BigBlueButtonApi.new(remove_slash(lb_user["apiURL"]), lb_user["secret"], "2.0")
     else
-      BigBlueButton::BigBlueButtonApi.new(remove_slash(bbb_endpoint), bbb_secret, "0.8")
+      BigBlueButton::BigBlueButtonApi.new(remove_slash(bbb_endpoint), bbb_secret, "2.0")
     end
   end
 

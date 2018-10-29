@@ -95,7 +95,8 @@ class RoomsController < ApplicationController
     opts[:user_is_moderator] = true
     opts[:callbackUrl] = URI.encode_www_form_component(request.base_url + "/" + @room.uid + "/process_recording")
 
-    puts URI.encode_www_form_component(request.base_url + "/" + @room.uid)
+    puts URI.encode_www_form_component(request.base_url + "/" + @room.uid + "/process_recording")
+    puts request.base_url + "/" + @room.uid + "/process_recording"
 
     redirect_to @room.join_path(current_user.name, opts, current_user.uid)
 
