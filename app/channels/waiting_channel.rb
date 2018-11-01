@@ -17,7 +17,34 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 class WaitingChannel < ApplicationCable::Channel
+
+  attr_accessor :wait_list
+
   def subscribed
-    stream_from "#{params[:uid]}_waiting_channel"
+
+    puts ActionCable.server.connections.size
+    ActionCable.server.connections.each do |connection|
+      puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+    end
+
+    #room = Room.find_by!(uid: params[:uid])
+
+    stream_from "#{params[:uid]}_waiting_channel" do |channel|
+      ch = channel.inspect
+      wl = channel[0] #.wait_list
+      wl2 = channel[2] #.wait_list
+      byebug
+      puts "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+      #channel.wait_list.push(params[:join_name])
+    end
+    #byebug
+  end
+
+  def unsubscribed
+    # Update params
+    # byebug
+    room = Room.find_by!(uid: params[:uid])
+    puts room.name + "***************************************************************************"
+    #stop_all_streams
   end
 end

@@ -62,7 +62,17 @@ class RoomsController < ApplicationController
         # Join name not passed.
         return
       end
+
+      #a = @room.wait_list
+
+      # Broadcast to users
+      puts @join_name
+      #@room.wait_list.push(@join_name)
+      UpdateUserWaitListJob.set(wait: 2.seconds).perform_later(@room)
+      a = @room.uid
+      #byebug
     end
+
 
     if @room.running?
       # Determine if the user needs to join as a moderator.
@@ -77,6 +87,10 @@ class RoomsController < ApplicationController
     else
       # They need to wait until the meeting begins.
       render :wait
+
+      participants = @room.participants
+      #yo = subscribed
+      #byebug
     end
   end
 
@@ -99,6 +113,8 @@ class RoomsController < ApplicationController
     # Notify users that the room has started.
     # Delay 5 seconds to allow for server start, although the request will retry until it succeeds.
     NotifyUserWaitingJob.set(wait: 5.seconds).perform_later(@room)
+    a = @room.uid
+    #byebug
   end
 
   # GET /:room_uid/logout

@@ -24,9 +24,34 @@ $(document).on("turbolinks:load", function(){
       channel: "WaitingChannel",
       uid: $(".background").attr("room")
     }, {
+      connected: function(data){
+        console.log(data);
+        //wait_list
+        //if(data.action == "update_list"){
+          //console.log(data.action);
+          // Remove from join list and update html **OR**
+          // Add to join list and update html
+        //}
+      },
+      disconnected: function(){
+        // Update Wait List
+        // html editing
+        console.log("K cool");
+      },
       received: function(data){
-        if(data.action = "started"){
+        if(data.action == "started"){
+          console.log(data.action);
+          console.log("SURE");
           request_to_join_meeting();
+        }
+        else if(data.action == "update_list"){
+          console.log(data.action)
+          // Remove from join list and update html **OR**
+          console.log("CAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLEEEEEEEEEEEEEEEEEDDDDDDDDDDDDDDDDDDDD");
+          // Add to join list and update html
+        }
+        else{
+          console.log(data);
         }
       }
     });

@@ -25,6 +25,12 @@ class Room < ApplicationRecord
 
   belongs_to :owner, class_name: 'User', foreign_key: :user_id
 
+  #attr_accessor :wait_list
+
+  #after_initialize do |room|
+  #  @wait_list ||= ["What"]
+  #end
+
   RETURNCODE_SUCCESS = "SUCCESS"
   META_LISTED = "gl-listed"
 
@@ -96,8 +102,17 @@ class Room < ApplicationRecord
     bbb.join_meeting_url(bbb_id, name, password, join_opts)
   end
 
+  # Update the list of waiting users.
+  def update_waiting
+    puts "CALLED"
+    #@wait_list.push("OK")
+    #puts new_wait_list
+    ActionCable.server.broadcast("#{uid}_waiting_channel", action: "update_list") #, wait_list: @wait_list)
+  end
+
   # Notify waiting users that a meeting has started.
   def notify_waiting
+    puts "REALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLY"
     ActionCable.server.broadcast("#{uid}_waiting_channel", action: "started")
   end
 
