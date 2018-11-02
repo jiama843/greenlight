@@ -63,12 +63,15 @@
     </div>
   </td>
   <td>
-    <% recording[:playbacks].each do |p| %>
-      <%= link_to p[:type].capitalize, p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
+    <% if recording[:metadata][:tags] %>
+      <% recording[:metadata][:tags].each do |p| %>
+        <%= link_to p[:type].capitalize, p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
+      <% end %>
     <% end %>
+    <button class="btn btn-sm btn-primary">+</button>
   </td>
   <td>
-    <% recording[:metadata][:tags].each do |p| %>
+    <% recording[:playbacks].each do |p| %>
       <%= link_to p[:type].capitalize, p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
     <% end %>
   </td>

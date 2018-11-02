@@ -59,6 +59,8 @@ class RoomsController < ApplicationController
       update_room_attributes
     elsif params[:setting] == "rename_recording"
       @room.update_recording(params[:record_id], "meta_name" => params[:record_name])
+    elsif params[:setting] == "edit_tags"
+      @room.update_recording(params[:record_id], "meta_tags" => params[:tags])
     end
     redirect_to room_path
   end
