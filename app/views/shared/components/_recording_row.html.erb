@@ -68,7 +68,7 @@
         <%= link_to p[:type].capitalize, p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
       <% end %>
     <% end %>
-    <button class="btn btn-sm btn-primary">+</button>
+    <button data-recordid="<%= recording[:recordID] %>" class="tag-column btn btn-sm btn-primary">+</button>
   </td>
   <td>
     <% recording[:playbacks].each do |p| %>
