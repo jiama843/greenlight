@@ -114,6 +114,7 @@ en:
       length: Length
       users: Users
       visibility: Visibility
+      tags: Tags
       formats: Formats
     visibility:
       public: Public
