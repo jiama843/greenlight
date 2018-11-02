@@ -29,13 +29,32 @@ class WaitingChannel < ApplicationCable::Channel
 
     #room = Room.find_by!(uid: params[:uid])
 
-    stream_from "#{params[:uid]}_waiting_channel" do |channel|
-      ch = channel.inspect
-      wl = channel[0] #.wait_list
-      wl2 = channel[2] #.wait_list
-      byebug
+    stream_from "#{params[:uid]}_waiting_channel", coder: ActiveSupport::JSON do |channel|
+
+      #wait_list ||= []
+
+      # wait_list[:params[:uid]].push(name)
+
+      type_of_channel = channel.class
+      #eval(channel)[:wait_list] ||= []
+
+      #chasdasdasdasd = eval(channel)[:wait_list]
+
+      channel["wait_list"] ||= []
+
+      #channel += "{\"action\":\"update_list\", \"wait_list\":[]}"
+      channel["wait_list"].push("Hi")
+      puts channel["wait_list"]
+
+      #byebug
       puts "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
-      #channel.wait_list.push(params[:join_name])
+      #join_name = params[:join_name]
+      ch = channel
+      #wait_list.push("HI")#params[:join_name])
+      #wl = wait_list
+      #ok = @wait_list
+      byebug
+      #channel[:wait_list] = channel[:wait_list]params[:join_name]
     end
     #byebug
   end
