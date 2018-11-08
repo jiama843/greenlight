@@ -93,7 +93,8 @@ class RoomsController < ApplicationController
     # Join the user in and start the meeting.
     opts = default_meeting_options
     opts[:user_is_moderator] = true
-    opts[:callbackUrl] = URI.encode(request.base_url + "/" + @room.uid + "/process_recording")
+    opts[:callbackUrl] = request.base_url + "/" + @room.uid + "/process_recording"
+    opts[:recordingCallbackUrl] = request.base_url + "/" + @room.uid + "/process_recording"
 
     puts URI.encode_www_form_component(request.base_url + "/" + @room.uid + "/process_recording")
     puts request.base_url + "/" + @room.uid + "/process_recording"
@@ -109,7 +110,7 @@ class RoomsController < ApplicationController
   def process_recording
     byebug
     puts "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
-    
+    redirect_to root_path
   end
 
   # GET /:room_uid/logout

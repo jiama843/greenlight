@@ -28,6 +28,7 @@ class Room < ApplicationRecord
   RETURNCODE_SUCCESS = "SUCCESS"
   META_LISTED = "gl-listed"
   META_CALLBACK = "endCallbackUrl"
+  META_RECORDING_CALLBACK = "bbb-recording-ready-url"
 
   # Determines if a user owns a room.
   def owned_by?(user)
@@ -56,11 +57,13 @@ class Room < ApplicationRecord
       moderatorOnlyMessage: options[:moderator_message],
       "meta_#{META_LISTED}": false,
       "meta_#{META_CALLBACK}": options[:callbackUrl],
+      "meta_#{META_RECORDING_CALLBACK}": options[:recordingCallbackUrl],
     }
 
     puts create_options
     puts create_options[:"meta_gl-listed"]
     puts create_options[:"meta_endCallbackUrl"] + "***********************************************************************"
+    puts create_options[:"meta_bbb-recording-ready-url"] + "***********************************************************************"
     puts bbb.get_api_version
 
     # Update session info.
