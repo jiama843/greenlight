@@ -55,12 +55,12 @@ class Room < ApplicationRecord
       attendeePW: random_password(12),
       moderatorOnlyMessage: options[:moderator_message],
       "meta_#{META_LISTED}": false,
-      meta_endCallbackUrl: options[:callbackUrl],
+      "meta_#{META_CALLBACK}": options[:callbackUrl],
     }
 
     puts create_options
     puts create_options[:"meta_gl-listed"]
-    puts create_options[:meta_endCallbackUrl] + "***********************************************************************"
+    puts create_options[:"meta_endCallbackUrl"] + "***********************************************************************"
     puts bbb.get_api_version
 
     # Update session info.
