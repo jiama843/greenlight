@@ -17,6 +17,8 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 class Room < ApplicationRecord
+  serialize :wait_list
+
   before_create :setup
 
   before_destroy :delete_all_recordings

@@ -18,8 +18,6 @@
 
 class WaitingChannel < ApplicationCable::Channel
 
-  attr_accessor :wait_list
-
   def subscribed
 
     puts ActionCable.server.connections.size
@@ -27,33 +25,42 @@ class WaitingChannel < ApplicationCable::Channel
       puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     end
 
-    #room = Room.find_by!(uid: params[:uid])
+    room = Room.find_by!(uid: params[:uid])
+
+    #puts @room.name
 
     stream_from "#{params[:uid]}_waiting_channel", coder: ActiveSupport::JSON do |channel|
+    #stream_for @room, coder: ActiveSupport::JSON do |channel|
 
       #wait_list ||= []
 
       # wait_list[:params[:uid]].push(name)
 
-      type_of_channel = channel.class
+      #type_of_channel = channel.class
       #eval(channel)[:wait_list] ||= []
 
       #chasdasdasdasd = eval(channel)[:wait_list]
 
-      channel["wait_list"] ||= []
+      #channel["wait_list"] ||= []
 
       #channel += "{\"action\":\"update_list\", \"wait_list\":[]}"
-      channel["wait_list"].push("Hi")
-      puts channel["wait_list"]
+      #channel["wait_list"].push("Hi")
+      #puts channel["wait_list"]
+      #@room.wait_list.
 
-      #byebug
+      watilsit = room.wait_list
+
+      room.update_attributes(wait_list: watilsit.push("hi"))
+      room.save
+      byebug
+
       puts "]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
       #join_name = params[:join_name]
       ch = channel
       #wait_list.push("HI")#params[:join_name])
       #wl = wait_list
       #ok = @wait_list
-      byebug
+      #byebug
       #channel[:wait_list] = channel[:wait_list]params[:join_name]
     end
     #byebug
@@ -63,6 +70,9 @@ class WaitingChannel < ApplicationCable::Channel
     # Update params
     # byebug
     room = Room.find_by!(uid: params[:uid])
+
+    room.update_attributes(wait_list: room.wait_list - "hi")
+    room.save
     puts room.name + "***************************************************************************"
     #stop_all_streams
   end
