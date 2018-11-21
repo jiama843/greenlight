@@ -24,7 +24,7 @@
             <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
               <thead>
                 <tr>
-                  <th><%= t("recording.table.name") %></th>
+                  <th colspan="1"><%= t("recording.table.name") %></th>
                   <% if recording_thumbnails? %>
                     <th><%= t("recording.table.thumbnails") %></th>
                   <% end %>
@@ -35,6 +35,7 @@
                   <% unless only_public %>
                     <th class="text-center"><i class="icon-settings"></i></th>
                   <% end %>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
