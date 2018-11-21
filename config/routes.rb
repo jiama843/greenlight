@@ -19,6 +19,14 @@
 Rails.application.routes.draw do
   get 'health_check', to: 'health_check/health_check#index'
 
+  # api routes
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:index, :create, :show, :update, :destroy]
+      resources :microposts, only: [:index, :create, :show, :update, :destroy]
+    end
+  end
+
   # Error routes.
   match '/404', to: 'errors#not_found', via: :all
   match '/422', to: 'errors#unprocessable', via: :all
