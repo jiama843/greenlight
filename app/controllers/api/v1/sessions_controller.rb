@@ -16,19 +16,6 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
-class Api::V1::UsersController < Api::V1::BaseController
-
-  before_action :validate_session
-
-  def validate_session
-    user = User.find_by(email: params[:email])
-    if !user.authenticate(params[:password])
-      raise :error
-    end
-  end
-
-  def get_user
-    user = User.find_by(uid: params[:uid])
-    render(json: Api::V1::UserSerializer.new(user).to_json)
-  end
+class Api::V1::SessionsController < Api::V1::BaseController
+  skip_before_action :verify_authenticity_token
 end

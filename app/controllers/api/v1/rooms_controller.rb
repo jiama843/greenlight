@@ -16,19 +16,25 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
-class Api::V1::UsersController < Api::V1::BaseController
-
+class Api::V1::RoomsController < Api::V1::BaseController
   before_action :validate_session
 
   def validate_session
-    user = User.find_by(email: params[:email])
+    room = Room.find_by(uid: params[:room_uid])
+    user = User.find_by(id: room.user_id)
     if !user.authenticate(params[:password])
       raise :error
     end
   end
 
-  def get_user
-    user = User.find_by(uid: params[:uid])
-    render(json: Api::V1::UserSerializer.new(user).to_json)
+  def get_room
+    room = Room.find_by(uid: params[:room_uid])
+    render(json: Api::V1::RoomSerializer.new(room).to_json)
+  end
+
+  def get_room_records
+    room = Room.find_by(uid: params[:room_uid])
+    recordings = room.recordings
+    render(json: recordings)
   end
 end

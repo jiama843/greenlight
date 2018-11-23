@@ -17,7 +17,7 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 class Api::V1::UserSerializer < ActiveModel::Serializer
-  attributes :name, :email, :image, :password, :password_confirmation, :provider, :accepted_terms
+  attributes :name, :email, :image, :provider, :accepted_terms
 
   def created_at
     object.created_at.in_time_zone.iso8601 if object.created_at

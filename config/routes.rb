@@ -22,8 +22,11 @@ Rails.application.routes.draw do
   # api routes
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:index, :create, :show, :update, :destroy]
-      resources :microposts, only: [:index, :create, :show, :update, :destroy]
+      post '/users', to: 'users#get_user'
+      post '/rooms/:room_uid', to: 'rooms#get_room'
+      post '/rooms/:room_uid/recordings', to: 'rooms#get_room_records'
+      #resources :sessions, only: [:create]
+      #resources :users, only: [:index, :create, :show, :update, :destroy]
     end
   end
 
