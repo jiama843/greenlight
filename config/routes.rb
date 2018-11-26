@@ -31,6 +31,13 @@ Rails.application.routes.draw do
   # Redirect to terms page
   match '/terms', to: 'users#terms', via: [:get, :post]
 
+  # Admin resources
+  scope '/admin' do
+
+    # User management.
+    get '/manage', to: 'admin#manage_users', as: :manage_users
+  end
+
   # User resources.
   scope '/u' do
     # Verification Routes

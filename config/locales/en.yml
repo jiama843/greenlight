@@ -64,6 +64,7 @@ en:
     dropdown:
       help: Need help?
       home: Home Room
+      manage_users: Manage Users
       settings: Settings
       signout: Sign out
   home_room: Home Room
