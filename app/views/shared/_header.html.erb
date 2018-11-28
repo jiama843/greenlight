@@ -45,7 +45,7 @@
 								<i class="dropdown-icon fas fa-cog"></i> <%= t("header.dropdown.settings") %>
 							<% end %>
 							<% if current_user.role == 'admin' %>
-								<%= link_to manage_users_path, class: "dropdown-item" do %>
+								<%= link_to admin_manage_users_path, class: "dropdown-item" do %>
 									<i class="dropdown-icon fas fa-users"></i> <%= t("header.dropdown.manage_users") %>
 								<% end %>
 							<% end %>

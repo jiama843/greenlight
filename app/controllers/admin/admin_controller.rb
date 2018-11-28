@@ -1,6 +1,9 @@
-<%
+# frozen_string_literal: true
+
 # BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+#
 # Copyright (c) 2018 BigBlueButton Inc. and by respective authors (see below).
+#
 # This program is free software; you can redistribute it and/or modify it under the
 # terms of the GNU Lesser General Public License as published by the Free Software
 # Foundation; either version 3.0 of the License, or (at your option) any later
@@ -9,33 +12,25 @@
 # BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+#
 # You should have received a copy of the GNU Lesser General Public License along
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
-%>
 
-<tr>
-  <td class="w-1">
-    <% if user.image.blank? %>
-      <span class="avatar"><%= user.name.first %></span>
-    <% else %>
-      <span class="avatar" style="background-image: url(<%= user.image %>)"></span>
-    <% end %>
-  </td>
-  <td>
-    <span class="text-center username"><%= user.name %></span>
-  </td>
-  <td class="text-left">
-    <%= user.email || "-" %>
-  </td>
-  <td class="text-left">
-    <%= user.provider %>
-  </td>
-  <td>
-    <%= user.role %>
-  </td>
-  <td class="text-center">
-    <%= button_to admin_start_session_path, method: :post, params: { email: user.email }, class: "btn btn-primary" do %>
-      <i class="fas fa-eye px-3"></i>
-    <% end %>
-  </td>
-</tr>
+class Admin::AdminController < ApplicationController
+  before_action :authorized?
+
+  def manage_users
+    render 'admin/manage_users', users: registered_users
+  end
+
+  private
+  def authorized?
+    unless current_user.role == 'admin'
+      redirect_to '/404'
+    end
+  end
+
+  def registered_users
+    @users = User.where.not(id: current_user.id)
+  end
+end

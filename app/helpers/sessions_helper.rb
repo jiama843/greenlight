@@ -48,6 +48,11 @@ module SessionsHelper
     @current_user ||= User.find_by(id: session[:user_id])
   end
 
+  # Retrieves the admin session user.
+  def session_user
+    @session_user ||= User.find_by(id: session[:admin_session_id])
+  end
+
   def generate_checksum(customer_name, redirect_url, secret)
     string = customer_name + redirect_url + secret
     OpenSSL::Digest.digest('sha1', string).unpack("H*").first

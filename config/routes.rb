@@ -32,10 +32,19 @@ Rails.application.routes.draw do
   match '/terms', to: 'users#terms', via: [:get, :post]
 
   # Admin resources
-  scope '/admin' do
+  namespace 'admin' do
 
     # User management.
     get '/manage', to: 'admin#manage_users', as: :manage_users
+
+    # Session routes for admin
+    scope '/session' do
+      post '/start', to: 'sessions#create', as: :start_session
+      get '/end', to: 'sessions#destroy', as: :end_session
+
+      resources :rooms, only: [:create, :show, :destroy], param: :room_uid, path: '/'
+      #get '/:room_uid', to: 'rooms#show', as: :
+    end
   end
 
   # User resources.

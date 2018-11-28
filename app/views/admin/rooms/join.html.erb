@@ -13,29 +13,16 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 %>
 
-<tr>
-  <td class="w-1">
-    <% if user.image.blank? %>
-      <span class="avatar"><%= user.name.first %></span>
-    <% else %>
-      <span class="avatar" style="background-image: url(<%= user.image %>)"></span>
-    <% end %>
-  </td>
-  <td>
-    <span class="text-center username"><%= user.name %></span>
-  </td>
-  <td class="text-left">
-    <%= user.email || "-" %>
-  </td>
-  <td class="text-left">
-    <%= user.provider %>
-  </td>
-  <td>
-    <%= user.role %>
-  </td>
-  <td class="text-center">
-    <%= button_to admin_start_session_path, method: :post, params: { email: user.email }, class: "btn btn-primary" do %>
-      <i class="fas fa-eye px-3"></i>
-    <% end %>
-  </td>
-</tr>
+<%= render 'shared/room_event' do %>
+  <%= form_for room_path(@room), method: :post do |f| %>
+    <div class="input-group join-input">
+      <%= f.text_field :join_name,
+          required: true,
+          class: "form-control join-form",
+          placeholder: t("enter_your_name"),
+          value: "#{session_user ? session_user.name : ''}",
+          readonly: !session_user.nil? %>
+      <%= f.submit t("room.join"), class: "btn btn-primary btn-sm col-sm-3 form-control join-form" %>
+    </div>
+  <% end %>
+<% end %>
