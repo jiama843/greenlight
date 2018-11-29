@@ -32,7 +32,7 @@ class Admin::RoomsController < Admin::AdminController
       if room_params[:auto_join] == "1"
         start
       else
-        redirect_to @room
+        redirect_to admin_room_path(@room)
       end
     end
   end
@@ -83,7 +83,7 @@ class Admin::RoomsController < Admin::AdminController
     # Don't delete the users home room.
     @room.destroy if @room.owned_by?(session_user) && @room != session_user.main_room
 
-    redirect_to session_user.main_room
+    redirect_to admin_room_path(session_user.main_room)
   end
 
   # POST /admin/session/:room_uid/start
@@ -91,11 +91,13 @@ class Admin::RoomsController < Admin::AdminController
     # Join the user in and start the meeting.
     opts = default_meeting_options
     opts[:user_is_moderator] = true
+    opts[:meeting_logout_url] = session_logout_url
 
     begin
       redirect_to @room.join_path(session_user.name, opts, session_user.uid)
     rescue BigBlueButton::BigBlueButtonException => exc
-      redirect_to room_path, notice: I18n.t(exc.key.to_s.underscore, default: I18n.t("bigbluebutton_exception"))
+      puts exc
+      redirect_to admin_room_path(@room), notice: I18n.t(exc.key.to_s.underscore, default: I18n.t("bigbluebutton_exception"))
     end
 
     # Notify users that the room has started.
@@ -106,7 +108,7 @@ class Admin::RoomsController < Admin::AdminController
   # GET /admin/session/:room_uid/logout
   def logout
     # Redirect the correct page.
-    redirect_to @room
+    redirect_to admin_room_path(@room)
   end
 
   # POST /admin/session/:room_uid/:record_id
@@ -156,6 +158,10 @@ class Admin::RoomsController < Admin::AdminController
   helper_method :safe_recording_images
 
   private
+
+  def session_logout_url
+    request.base_url + admin_logout_room_path(@room)
+  end
 
   def room_params
     params.require(:room).permit(:name, :auto_join)

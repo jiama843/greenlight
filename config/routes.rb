@@ -43,6 +43,19 @@ Rails.application.routes.draw do
       get '/end', to: 'sessions#destroy', as: :end_session
 
       resources :rooms, only: [:create, :show, :destroy], param: :room_uid, path: '/'
+
+      # Extended room routes.
+      scope '/:room_uid' do
+        post '/', to: 'rooms#join'
+        post '/start', to: 'rooms#start', as: :start_room
+        get '/logout', to: 'rooms#logout', as: :logout_room
+
+        # Mange recordings.
+        scope '/:record_id' do
+          post '/', to: 'rooms#update_recording', as: :update_recording
+          delete '/', to: 'rooms#delete_recording', as: :delete_recording
+        end
+      end
       #get '/:room_uid', to: 'rooms#show', as: :
     end
   end

@@ -47,9 +47,9 @@
       </div>
       <div class="col-lg-3 col-sm-12 force-bottom mt-5">
         <% if @is_running %>
-          <%= button_to t("room.join"), room_path(@room), class: "btn btn-primary btn-block px-7 start-button float-right" %>
+          <%= button_to t("room.join"), admin_room_path(@room), class: "btn btn-primary btn-block px-7 start-button float-right" %>
         <% else %>
-          <%= button_to t("room.start"), start_room_path(@room), class: "btn btn-primary btn-block px-7 start-button float-right" %>
+          <%= button_to t("room.start"), admin_start_room_path(@room), class: "btn btn-primary btn-block px-7 start-button float-right" %>
         <% end %>
       </div>
     </div>
@@ -57,13 +57,13 @@
     <div class="row pt-7 pb-2">
       <% if session_user.rooms.length > 1 %>
         <div class="col-lg-4 col-md-6 col-sm-12">
-          <%= link_to session_user.main_room do %>
+          <%= link_to admin_room_path(session_user.main_room) do %>
             <%= render "shared/components/room_block", room: session_user.main_room %>
           <% end %>
         </div>
         <% session_user.secondary_rooms.each do |room| %>
           <div class="col-lg-4 col-md-6 col-sm-12">
-            <%= link_to room do %>
+            <%= link_to admin_room_path(room) do %>
               <%= render "shared/components/room_block", room: room %>
             <% end %>
           </div>

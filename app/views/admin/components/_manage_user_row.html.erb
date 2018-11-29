@@ -22,7 +22,11 @@
     <% end %>
   </td>
   <td>
-    <span class="text-center username"><%= user.name %></span>
+    <% if session[:admin_session_id] == user.id %>
+      <span class="text-center username"><%= user.name %> (Active) </span>
+    <% else %>
+      <span class="text-center username"><%= user.name %></span>
+    <% end %>
   </td>
   <td class="text-left">
     <%= user.email || "-" %>

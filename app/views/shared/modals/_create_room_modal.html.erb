@@ -22,7 +22,7 @@
             <h3><%= t("modal.create_room.title") %></h3>
           </div>
 
-          <%= form_for(:room, url: rooms_path) do |f| %>
+          <%= form_for(:room, url: session[:admin_session_id]? admin_rooms_path : rooms_path) do |f| %>
             <div class="input-icon">
               <span class="input-icon-addon">
                 <i class="fas fa-chalkboard-teacher"></i>
