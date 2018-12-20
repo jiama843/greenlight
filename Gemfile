@@ -81,8 +81,9 @@ group :development, :test do
   gem 'byebug', platform: :mri
 
   # Environment configuration.
-  gem 'dotenv-rails'
 end
+
+gem 'dotenv-rails'
 
 group :test do
   # Include Rspec and other testing utilities.
