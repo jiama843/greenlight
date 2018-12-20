@@ -165,6 +165,8 @@ en:
       subtitle: Permanently Delete your Account
       title: Delete Account
     design:
+      header_label: Header
+      background_label: Background
       not_supported: Customization not currently supported.
       subtitle: Customize Greenlight
       title: Design

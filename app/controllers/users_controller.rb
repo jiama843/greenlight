@@ -100,6 +100,11 @@ class UsersController < ApplicationController
     end
   end
 
+  # PATCH /u/:user_uid/customize
+  def customize
+    #if @user.update_attributes
+  end
+
   # DELETE /u/:user_uid
   def destroy
     if current_user && current_user == @user
